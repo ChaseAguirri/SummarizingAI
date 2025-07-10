@@ -2,6 +2,10 @@
 
 A simple web app that uses AI to summarize user-provided text into concise 2-3 sentence summaries.
 
+## 🔧 Tech Stack
+- **Frontend**: HTML/JS
+- **Backend**: Node.js + Express
+- **AI**: OpenAI GPT API
 ---
 
 ## Getting Started
