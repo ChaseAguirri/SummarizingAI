@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Text Summarizer</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+
+    form {
+      width: 100%;
+      max-width: 600px;
+      background-color: #1e1e1e;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    textarea {
+      width: 98%;
+      padding: 1rem;
+      border-radius: 8px;
+      border: none;
+      background-color: #2a2a2a;
+      color: #ffffff;
+      resize: vertical;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      background-color: #03dac6;
+      color: #000000;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #00bfa5;
+    }
+
+    h2 {
+      margin-top: 3rem;
+      color: #ffffff;
+    }
+
+    #summary-output {
+      width: 100%;
+      max-width: 600px;
+      background-color: #1e1e1e;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-top: 1rem;
+      min-height: 100px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body>
+  <h1>Summarize your text</h1>
+
+  <form id="summarize-form">
+    <label for="user-text">Enter text to be summarized:</label>
+    <textarea id="user-text" name="user-text" rows="6" maxlength="2000" placeholder="Paste your text here... (max 2000 characters)"></textarea>
+    <button type="submit">Summarize</button>
+  </form>
+
+  <h2>Summary:</h2>
+  <div id="summary-output" style="white-space: pre-wrap; font-family: monospace;">
+                                      /\_/\   z
+   Your summary will appear here.    ( -.- ) z     Please be Patient.
+                                      > ^ <
+  </div>
+  
+  
+
+  <script>
+    document.getElementById('summarize-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const userText = document.getElementById('user-text').value.trim();
+      if (!userText) {
+        alert('Please enter some text to summarize!');
+        return;
+      }
+
+      const outputDiv = document.getElementById('summary-output');
+outputDiv.style.whiteSpace = 'pre-wrap'; 
+
+outputDiv.textContent = `Summarizing... Please be Patient...
+
+                                    ╱|、
+                                   (˚ˎ 。7  
+                                    |、˜〵          
+                                   じしˍ,)ノ
+`;
+
+
+      try {
+        const response = await fetch('http://localhost:3000/api/summarize', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: userText }),
+        });
+
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        const data = await response.json();
+        outputDiv.textContent = data.summary || 'No summary returned.';
+      } catch (error) {
+        outputDiv.textContent = 'Error: ' + error.message;
+      }
+    });
+  </script>
+</body>
+</html>
