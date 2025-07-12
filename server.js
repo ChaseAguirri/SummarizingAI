@@ -8,7 +8,7 @@ dotenv.config();
 
 console.log('server.js loaded');
 console.log('Server starting...');
-console.log('API Key:', process.env.OPENAI_API_KEY || 'Not found');
+console.log('API Key:', process.env.OPENAI_API_KEY ? 'Found' : 'Not found');
 
 const app = express();
 app.use(cors());
@@ -26,11 +26,11 @@ app.post('/api/summarize', async (req, res) => {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo', 
+      model: 'gpt-3.5-turbo',
       messages: [
         {
           role: 'system',
-          content: 'You are a helpful assistant who summarizes text.',
+          content: `You are a helpful and friendly assistant who summarizes text into short, easy-to-understand explanations. Your goal is to make information more accessible without losing the core meaning.`,
         },
         {
           role: 'user',
